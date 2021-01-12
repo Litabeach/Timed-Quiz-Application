@@ -1,16 +1,26 @@
 // create variables
 
-numRight = 0;
-numQuestions = 0;
-answerDiv = document.getElementById('answers');
-questionDiv = document.getElementById('question');
-numRightSpan = document.getElementById('numRight');
-numQuestionsSpan = document.getElementById('numQuestions');
-startQuiz = document.getElementById('start-button');
-scoreEl = document.getElementById('score');
-inputScore = document.getElementById('input-score');
+var numRight = 0;
+var numQuestions = 0;
+var answerDiv = document.getElementById('answers');
+var questionDiv = document.getElementById('question');
+var numRightSpan = document.getElementById('numRight');
+var numQuestionsSpan = document.getElementById('numQuestions');
+var startQuiz = document.getElementById('start-button');
+var scoreEl = document.getElementById('score');
+var completeDiv = document.getElementById('complete');
+var inputInitials = document.getElementById('input-initials');
+var timerInterval;
+var timerEl = document.querySelector(".timer");
+var submitForm = document.getElementById('submit-form');
+  
+var secondsLeft = 30;
 
-questions = [
+var scores = JSON.parse(localStorage.getItem("scores")) || [];
+console.log(scores);
+// display scores using for loop on highscores.html
+
+var questions = [
   {
       question: 'What is 1 + 1 ?',
       options: ['0','2','4'],
@@ -36,7 +46,6 @@ questions = [
 
 // When you click start quiz, timer begins and questions appear
 startQuiz.addEventListener("click", function(event){
-  event.preventDefault();
   setTime();
   displayQuestion(questions.shift());
 });
@@ -53,7 +62,7 @@ function displayQuestion(q) {
   // attach an 'onclick' event that will update
   // the question counts and display the next question in the array
   for(i = 0; i < q.options.length; i++) {
-      btn = document.createElement('button');
+      var btn = document.createElement('button');
       btn.innerHTML = q.options[i];
       btn.setAttribute('id',i);
 
@@ -75,45 +84,50 @@ function displayQuestion(q) {
           if(questions.length) {
               displayQuestion(questions.shift()); 
           } else {
-              alert('Done! Your score is ' + secondsLeft);
+              //alert('Done! Your score is ' + secondsLeft);
               // instead of alert, create a function that hides questions and answers and displays results and place for initials and high score
-              // function displayResults();
+              displayResults();
           }                    
       }
       answerDiv.appendChild(btn);        
   }
 }
 
-// function displayResults(){
-//   questionDiv.style.display = ".hide";
-//   // answerDiv.style.display = ".hide";
-//   // clearInterval(timerInterval); (Stop the timer)
-//   // scoreEl.innerHTML = "All done! Your score is: " + secondsLeft;  
-//   // inputInitials.innerHTML = "Enter Initials";
-//   // inputScore.innerHTML = "Score: " + secondsLeft;
-// });
+
+function displayResults(){
+  questionDiv.classList.add("hide");
+  answerDiv.classList.add("hide");
+  completeDiv.classList.remove("hide");
+  clearInterval(timerInterval); 
+  scoreEl.innerHTML = "All done! Your score is: " + secondsLeft;  
+};
+
+// event listener to submit score and intials, send to high score page
+submitForm.addEventListener("submit", function(event){
+  event.preventDefault()
+
+  scores.push({
+    initials: inputInitials.value,
+    score: secondsLeft
+  })
+
+  localStorage.setItem('scores', JSON.stringify(scores))
+
+  // redirect them somewhere else
+  location.href="highscores.html";
+});
 
 
-  // timer
+// timer;
+function setTime() {
+  timerInterval = setInterval(function() {
+    secondsLeft--;
+    timerEl.textContent = secondsLeft + " seconds left.";
+    
+    if(secondsLeft <= 0) {
+      clearInterval(timerInterval);
+      displayResults();
+    }
 
-  var timerEl = document.querySelector(".timer");
-  
-  var secondsLeft = 30;
-  
-  function setTime() {
-    var timerInterval = setInterval(function() {
-      secondsLeft--;
-      timerEl.textContent = secondsLeft + " seconds left.";
-      
-      if(secondsLeft <= 0) {
-        clearInterval(timerInterval);
-        alert('Done! Your score is ' + secondsLeft);
-        // function displayResults();
-        // instead of alert, create a function that hides questions and answers and displays results and place for initials and high score
-      }
-  
-    }, 1000);
-  }
-
-
- 
+  }, 1000);
+}

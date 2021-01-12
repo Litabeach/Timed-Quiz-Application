@@ -1,50 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz</title>
     <link rel="stylesheet" href="Assets/styles.css">
 </head>
-
-<header>
- <!-- link to high score page -->
-    <a href= "highscores.html">View High Scores</a>
-    <!-- Timer -->
-    <div class="timer"></div>
-</header>
-
-
 <body>
-
+    <header>
+        <!-- link to high score page -->
+        <a href="highscores.html">View High Scores</a>
+        <!-- Timer -->
+        <div class="timer"></div>
+    </header>
     <section id="start">
         <div class="container">
-            <h1>Welcome to the quiz!</h1> 
-                <p>Answer as many questions as you can within the time limit.</p>
-                <p>Each incorrect answer subtracts 10 seconds off the timer.</p>
-                <p>Score is determined by time remaining at the end of the quiz. </p>
-                <button class="button" id="start-button">Start Quiz</button>
+            <h1>Welcome to the quiz!</h1>
+            <p>Answer as many questions as you can within the time limit.</p>
+            <p>Each incorrect answer subtracts 10 seconds off the timer.</p>
+            <p>Score is determined by time remaining at the end of the quiz. </p>
+            <button class="button" id="start-button">Start Quiz</button>
 
         </div>
     </section>
-    
+
     <section id="quiz">
         <div class="container">
-                <div id="question"></div>
-                <div id="answers"></div>
+            <div id="question"></div>
+            <div id="answers"></div>
+        </div>
     </section>
 
     <section id="results">
         <div class="container">
-                <span id="numRight">0</span> of <span id="numQuestions">0</span>
-                <br>
-                <!-- use a hide style to hide the quiz and show results? -->
-                <div id="score" class="hide"></div>
-                <div id="input-score" class="hide"></div>
+            <span id="numRight">0</span> of <span id="numQuestions">0</span>
+            <br>
+            <!-- use a hide style to hide the quiz and show results? -->
+            <div id="complete" class="hide">
+                <div id="score"></div>
+                <form id="submit-form">
+                    <label for="input-initials">Input Initials</label>
+                    <input id="input-initials" type="text">
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     </section>
 
 
     <script type="text/javascript" src="Assets/script.js"></script>
 </body>
+
 </html>
