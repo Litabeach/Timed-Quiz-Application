@@ -7,6 +7,9 @@ questionDiv = document.getElementById('question');
 numRightSpan = document.getElementById('numRight');
 numQuestionsSpan = document.getElementById('numQuestions');
 startQuiz = document.getElementById('start-button');
+scoreEl = document.getElementById('score');
+inputScore = document.getElementById('input-score');
+
 questions = [
   {
       question: 'What is 1 + 1 ?',
@@ -72,12 +75,24 @@ function displayQuestion(q) {
           if(questions.length) {
               displayQuestion(questions.shift()); 
           } else {
-              alert('Done! You got '+numRight+' of '+numQuestions+' right!');
+              alert('Done! Your score is ' + secondsLeft);
+              // instead of alert, create a function that hides questions and answers and displays results and place for initials and high score
+              // function displayResults();
           }                    
       }
       answerDiv.appendChild(btn);        
   }
 }
+
+// function displayResults(){
+//   questionDiv.style.display = ".hide";
+//   // answerDiv.style.display = ".hide";
+//   // clearInterval(timerInterval); (Stop the timer)
+//   // scoreEl.innerHTML = "All done! Your score is: " + secondsLeft;  
+//   // inputInitials.innerHTML = "Enter Initials";
+//   // inputScore.innerHTML = "Score: " + secondsLeft;
+// });
+
 
   // timer
 
@@ -92,9 +107,13 @@ function displayQuestion(q) {
       
       if(secondsLeft <= 0) {
         clearInterval(timerInterval);
-        alert('Done! You got '+numRight+' of '+ 4 +' right!');
+        alert('Done! Your score is ' + secondsLeft);
+        // function displayResults();
+        // instead of alert, create a function that hides questions and answers and displays results and place for initials and high score
       }
   
     }, 1000);
   }
 
+
+ 

@@ -2,10 +2,25 @@
     display: none;
   }
 
-  .button{
-
+  .container{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 150px;
+    margin-left: 80px;
+    text-align: center;
+    font-size: large;
   }
 
-  .container{
-    
+  #quiz{
+    color:rgb(3, 3, 66);
+    font-size: 72px;
+  }
+
+  .button{
+    background-color:rgb(172, 172, 218);
+    color: navy;
+  }
+
+  body{
+    background-color: rgb(189, 216, 189);
   }
