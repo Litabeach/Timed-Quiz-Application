@@ -1,143 +1,108 @@
-// Define functions
+// create variables
 
-function buildQuiz(){
-    // variable to store the HTML output
-    var output = [];
-  
-    // for each question...
-    myQuestions.forEach(
-      (currentQuestion, questionNumber) => {
-  
-        // variable to store the list of possible answers
-        var answers = [];
-  
-        // and for each available answer...
-        for(letter in currentQuestion.answers){
-  
-          // ...add an HTML radio button
-          answers.push(
-            `<label>
-              <input type="radio" name="question${questionNumber}" value="${letter}">
-              ${letter} :
-              ${currentQuestion.answers[letter]}
-            </label>`
-          );
-        }
-  
-        // add this question and its answers to the output
-        output.push(
-          `<div class="question"> ${currentQuestion.question} </div>
-          <div class="answers"> ${answers.join('')} </div>`
-        );
+numRight = 0,
+numQuestions = 0,
+answerDiv = document.getElementById('answers'),
+questionDiv = document.getElementById('question'),
+numRightSpan = document.getElementById('numRight'),
+numQuestionsSpan = document.getElementById('numQuestions');
+startQuiz = document.getElementById('start-button');
+questions = [
+  {
+      question: 'What is 1 + 1 ?',
+      options: ['0','1','2'],
+      correctIndex: 0
+  },
+  {
+      question: 'What is 2 + 2 ?',
+      options: ['72','4','3.5'],
+      correctIndex: 1
+  },
+  {
+    question: 'What is 5 + 2 ?',
+    options: ['7','11','72'],
+    correctIndex: 0
+  },
+
+  {
+    question: 'What is 12 + 2 ?',
+    options: ['5','8','14'],
+    correctIndex: 2
+  },
+]
+
+
+
+function showQuestion(q) {  
+  // insert the question text
+  questionDiv.innerHTML = q.question;
+
+  // clear existing 
+  answerDiv.innerHTML = '';
+
+  // for each option in the 'options' array, create a button
+  // attach an 'onclick' event handler that will update
+  // the question counts and display the next question in the array
+  for(i = 0; i < q.options.length; i++) {
+      btn = document.createElement('button');
+      btn.innerHTML = q.options[i];
+      btn.setAttribute('id',i);
+
+      // event handler for each answer button
+      btn.onclick = function() {
+          var id = parseInt(this.getAttribute('id'),10);
+          numQuestionsSpan.innerHTML = ++numQuestions;
+
+          // if this is the right answer, increment numRight
+          if(id === q.correctIndex) {
+              numRightSpan.innerHTML = ++numRight;
+          }
+
+          // if there is another question to be asked, run the function again
+          // otherwise, complete the test however you see fit
+          if(questions.length) {
+              displayQuestion(questions.shift()); 
+          } else {
+              alert('Done! You got '+numRight+' of '+numQuestions+' right!');
+          }                    
       }
-    );
-  
-    // finally combine our output list into one string of HTML and put it on the page
-    quizContainer.innerHTML = output.join('');}
-
-    
-
-// define function show results
-    function showResults(){
-
-    // gather answer containers from our quiz
-    var answerContainers = quizContainer.querySelectorAll('.answers');
-  
-    // keep track of user's answers
-    var numCorrect = 0;
-  
-    // for each question...
-    myQuestions.forEach( (currentQuestion, questionNumber) => {
-  
-      // find selected answer
-      var answerContainer = answerContainers[questionNumber];
-      var selector = `input[name=question${questionNumber}]:checked`;
-      var userAnswer = (answerContainer.querySelector(selector) || {}).value;
-  
-      // if answer is correct
-      if(userAnswer === currentQuestion.correctAnswer){
-        // add to the number of correct answers
-        numCorrect++;
-  
-        // color the answers green
-        answerContainers[questionNumber].style.color = 'lightgreen';
-      }
-      // if answer is wrong or blank
-      else{
-        // color the answers red
-        answerContainers[questionNumber].style.color = 'red';
-      }
-    });
-  
-    // showSlide Function
-    function showSlide(n) {
-        slides[currentSlide].classList.remove('active-slide');
-        slides[n].classList.add('active-slide');
-        currentSlide = n;
-        if(currentSlide === 0){
-          previousButton.style.display = 'none';
-        }
-        else{
-          previousButton.style.display = 'inline-block';
-        }
-        if(currentSlide === slides.length-1){
-          nextButton.style.display = 'none';
-          submitButton.style.display = 'inline-block';
-        }
-        else{
-          nextButton.style.display = 'inline-block';
-          submitButton.style.display = 'none';
-        }
-      }
-
-    // show number of correct answers out of total
-    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+      answerDiv.appendChild(btn);        
+  }
 }
 
-  // Define Variables
-var quizContainer = document.getElementById('quiz');
-var resultsContainer = document.getElementById('results');
-var submitButton = document.getElementById('submit');
-var myQuestions = [
-    {
-      question: "Who invented JavaScript?",
-      answers: {
-        a: "Douglas Crockford",
-        b: "Sheryl Sandberg",
-        c: "Brendan Eich"
-      },
-      correctAnswer: "c"
-    },
+startQuiz.addEventListener("click", function(event){
+  event.preventDefault();
+  setTime();
+});
 
-// call the function to display it
-buildQuiz();
+  showQuestion(questions.shift());
 
-// pagination
-var previousButton = document.getElementById("previous");
-var nextButton = document.getElementById("next");
-var slides = document.querySelectorAll(".slide");
-var currentSlide = 0;
+  // timer
 
-// Call the function showSlide
-showSlide(currentSlide);
-
-// Slide navigation 
-function showNextSlide() {
-    showSlide(currentSlide + 1);
-  }
+  var timerEl = document.querySelector(".timer");
   
-  function showPreviousSlide() {
-    showSlide(currentSlide - 1);
+  var secondsLeft = 90;
+  
+  function setTime() {
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timerEl.textContent = secondsLeft + " seconds left.";
+      
+      if(secondsLeft === 0) {
+        clearInterval(timerInterval);
+        // showResults();
+      }
+  
+    }, 1000);
   }
 
-// Event Listeners
-submitButton.addEventListener('click', showResults);
-previousButton.addEventListener("click", showPreviousSlide);
-nextButton.addEventListener("click", showNextSlide);
-
-
-
-
-
+  // function incorrect() {
+  //   timerEl.textContent = secondsLeft + " seconds left.";
+  //   secondsLeft -= 10;
+  //   if(secondsLeft <= 0) {
+  //     clearInterval(timerInterval);
+      
+  //   }
+  // }
 
 
