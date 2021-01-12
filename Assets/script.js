@@ -18,7 +18,7 @@ var secondsLeft = 30;
 
 var scores = JSON.parse(localStorage.getItem("scores")) || [];
 console.log(scores);
-// display scores using for loop on highscores.html
+
 
 var questions = [
   {
@@ -113,8 +113,8 @@ submitForm.addEventListener("submit", function(event){
 
   localStorage.setItem('scores', JSON.stringify(scores))
 
-  // redirect them somewhere else
-  location.href="highscores.html";
+  // redirect them to high scores page
+  location.href="Assets/highscores.html";
 });
 
 
