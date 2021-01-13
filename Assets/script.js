@@ -18,6 +18,7 @@ var secondsLeft = 30;
 var scores = JSON.parse(localStorage.getItem("scores")) || [];
 console.log(scores);
 
+// array of quiz questions
 var questions = [
   {
     question: 'What is 1 + 1 ?',
