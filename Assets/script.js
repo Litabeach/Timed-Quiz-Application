@@ -21,24 +21,24 @@ console.log(scores);
 // array of quiz questions
 var questions = [
   {
-    question: 'What is 1 + 1 ?',
-    options: ['0', '2', '4'],
+    question: 'What is the stalk that joins a leaf to a stem called?',
+    options: ['root', 'petiole', 'xylem'],
     correctIndex: 1
   },
   {
-    question: 'What is 2 + 2 ?',
-    options: ['72', '4', '3.5'],
+    question: 'Which part of the plant makes food for the plant?',
+    options: ['stem', 'leaves', 'stamen'],
     correctIndex: 1
   },
   {
-    question: 'What is 5 + 2 ?',
-    options: ['7', '11', '72'],
+    question: 'What part of the plant absorbs water and minerals from soil?',
+    options: ['root', 'flower', 'seeds'],
     correctIndex: 0
   },
 
   {
-    question: 'What is 12 + 2 ?',
-    options: ['5', '8', '14'],
+    question: 'What part of the plant delivers water to the other parts of the plant?',
+    options: ['leaf', 'auxillary bud', 'stem'],
     correctIndex: 2
   },
 ];
@@ -64,6 +64,8 @@ function displayQuestion(q) {
     var btn = document.createElement('button');
     btn.innerHTML = q.options[i];
     btn.setAttribute('id', i);
+    btn.style.color = 'blue';
+    // btn.appendChild(lineBreak);
 
     // event handler for each answer button
     btn.onclick = function () {
